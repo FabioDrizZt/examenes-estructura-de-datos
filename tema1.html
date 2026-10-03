@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪙 Examen Parcial — Tema 1: Criptoactivos & Finanzas (AyED 2026)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+        
+        .tab-btn.active {
+            background-color: #06b6d4;
+            color: #020617;
+            font-weight: 700;
+            border-color: #06b6d4;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Reglas de Impresión A4 para Evaluación Presencial */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                font-size: 11pt;
+            }
+            .no-print, nav, .tab-buttons, #tab-simulador, #tab-calculadora, #tab-starter, button {
+                display: none !important;
+            }
+            #tab-consignas {
+                display: block !important;
+                opacity: 1 !important;
+            }
+            .print-card {
+                border: 1px solid #ccc !important;
+                background: white !important;
+                box-shadow: none !important;
+                color: black !important;
+                page-break-inside: avoid;
+            }
+            .print-text-dark {
+                color: black !important;
+            }
+            pre, code {
+                border: 1px solid #ddd !important;
+                background: #f8f9fa !important;
+                color: #111 !important;
+            }
+            .badge-print {
+                border: 1px solid #333 !important;
+                color: black !important;
+                background: transparent !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-white p-4 sm:p-6 lg:p-10">
+
+    <div class="max-w-5xl mx-auto space-y-6">
+
+        <!-- Top Breadcrumb & Actions Bar (no-print) -->
+        <div class="no-print flex items-center justify-between flex-wrap gap-4 text-sm font-medium">
+            <a href="index.html" class="inline-flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition">
+                <span>&larr;</span> Volver al Portal de Temas
+            </a>
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-mono text-slate-500">ID: PARCIAL-2026-T1-CRIPTO</span>
+                <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition shadow-md shadow-cyan-600/30">
+                    🖨️ Imprimir / Guardar PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Exam Container Card -->
+        <main class="bg-slate-900/90 backdrop-blur-md border border-cyan-500/30 rounded-3xl overflow-hidden shadow-2xl print-card">
+            
+            <!-- Header Header Block -->
+            <header class="p-6 sm:p-8 border-b border-white/10 bg-gradient-to-r from-slate-900 via-cyan-950/30 to-slate-900">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap mb-3">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 uppercase tracking-wide badge-print">
+                                🪙 Tema 1 • Variante A
+                            </span>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/10 badge-print">
+                                Cátedra AyED • C++
+                            </span>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 badge-print">
+                                ⏱️ 120-150 min
+                            </span>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 badge-print">
+                                🎯 100 Puntos
+                            </span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
+                            Examen Parcial de Programación y Estructuras de Datos
+                        </h1>
+                        <p class="text-cyan-300 font-medium text-sm sm:text-base mt-1">
+                            Dominio Aplicado: Criptoactivos, Transacciones Descentralizadas & Mempool de Bloques
+                        </p>
+                    </div>
+
+                    <!-- Datos del Alumno para Impresión / Registro -->
+                    <div class="bg-slate-950/70 border border-white/10 rounded-2xl p-4 text-xs font-mono space-y-2 min-w-[240px] print-card">
+                        <div class="text-slate-400 font-semibold uppercase tracking-wider text-[10px] text-cyan-400">Datos de Examen</div>
+                        <div class="flex justify-between border-b border-white/5 pb-1">
+                            <span class="text-slate-400">Alumno:</span>
+                            <span class="text-slate-200">_____________________</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/5 pb-1">
+                            <span class="text-slate-400">Legajo / DNI:</span>
+                            <span class="text-slate-200">_____________________</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Comisión / Fecha:</span>
+                            <span class="text-slate-200">___ / 2026</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (no-print) -->
+                <nav class="no-print mt-8 flex items-center gap-2 overflow-x-auto border-t border-white/10 pt-4 tab-buttons">
+                    <button onclick="switchTab('consignas')" id="btn-consignas" class="tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent transition">
+                        📋 Consignas Oficiales
+                    </button>
+                    <button onclick="switchTab('simulador')" id="btn-simulador" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white border border-transparent transition">
+                        🧪 Simulador en Vivo (JS)
+                    </button>
+                    <button onclick="switchTab('calculadora')" id="btn-calculadora" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white border border-transparent transition">
+                        📊 Rúbrica & Calculadora
+                    </button>
+                    <button onclick="switchTab('starter')" id="btn-starter" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white border border-transparent transition">
+                        💻 Código Base C++
+                    </button>
+                </nav>
+            </header>
+
+            <!-- TAB 1: CONSIGNAS OFICIALES -->
+            <div id="tab-consignas" class="tab-content active p-6 sm:p-8 space-y-10">
+
+                <!-- EJERCICIO 1 -->
+                <section class="space-y-4">
+                    <div class="flex items-center justify-between flex-wrap gap-2 border-b border-cyan-500/20 pb-2">
+                        <h2 class="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                            <span>1.</span> Memoria y Structs Anidados
+                        </h2>
+                        <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-300 text-xs font-mono font-bold border border-cyan-500/30">
+                            Ponderación: 15% (a: 7.5% | b: 7.5%)
+                        </span>
+                    </div>
+
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Un nodo validador de red financiera procesa cotizaciones de mercado y transacciones criptográficas en memoria rápida. Dadas las siguientes declaraciones de tipos de datos en lenguaje C:
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                        <div class="bg-[#1e1e1e] p-4 rounded-xl border border-white/10 overflow-x-auto">
+                            <span class="text-cyan-400 font-semibold">// Definición Struct Base</span>
+                            <pre class="mt-2 text-[#d4d4d4] leading-relaxed">struct stCotizacion {
+    float PrecioUSD;           // 4 bytes
+    float Variacion24h;        // 4 bytes
+    unsigned shortint Volumen; // 2 bytes
+    char IndicadorTendencia;   // 1 byte
+    char ParTrading[7];        // 7 bytes
+};</pre>
+                        </div>
+
+                        <div class="bg-[#1e1e1e] p-4 rounded-xl border border-white/10 overflow-x-auto">
+                            <span class="text-cyan-400 font-semibold">// Definición Struct Compuesto</span>
+                            <pre class="mt-2 text-[#d4d4d4] leading-relaxed">struct stOperacionCripto {
+    char HashTransaccion[36];         // 36 bytes
+    char BilleteraDestino[42];        // 42 bytes
+    stCotizacion DatosMercado;        // anidado
+    unsigned shortint Confirmaciones; // 2 bytes
+    float ComisionFee;                // 4 bytes
+    char TipoOrden;                   // 1 byte
+    char RedBlockchain[9];            // 9 bytes
+};</pre>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-white/5 space-y-2 text-sm text-slate-200">
+                        <div class="font-bold text-white">Consignas a responder justificando el cálculo en bytes:</div>
+                        <ol class="list-decimal pl-5 space-y-1.5 text-xs sm:text-sm">
+                            <li><strong>a.</strong> Indique la cantidad total de bytes ocupados en memoria por la variable simple: <code class="text-cyan-300 font-mono bg-cyan-950/50 px-1 py-0.5 rounded">stCotizacion miTicker;</code></li>
+                            <li><strong>b.</strong> Indique la cantidad total de memoria en bytes requerida para un vector de 40 transacciones: <code class="text-cyan-300 font-mono bg-cyan-950/50 px-1 py-0.5 rounded">stOperacionCripto Mempool[40];</code></li>
+                        </ol>
+                    </div>
+
+                    <!-- Solución Guía Ocultable -->
+                    <details class="text-xs bg-cyan-950/20 border border-cyan-500/20 rounded-xl p-3 no-print">
+                        <summary class="cursor-pointer font-bold text-cyan-400 hover:text-cyan-300">💡 Ver verificación de cálculo analítico</summary>
+                        <div class="mt-2 pl-4 border-l-2 border-cyan-500/40 text-slate-300 font-mono space-y-1">
+                            <p>• <strong>stCotizacion:</strong> 4 (float) + 4 (float) + 2 (unsigned short) + 1 (char) + 7 (char[7]) = <strong>18 bytes</strong>.</p>
+                            <p>• <strong>stOperacionCripto:</strong> 36 + 42 + 18 (stCotizacion) + 2 + 4 + 1 + 9 = <strong>112 bytes</strong> por registro.</p>
+                            <p>• <strong>Mempool[40]:</strong> 112 bytes &times; 40 registros = <strong>4480 bytes</strong>.</p>
+                        </div>
+                    </details>
+                </section>
+
+                <!-- EJERCICIO 2 -->
+                <section class="space-y-4">
+                    <div class="flex items-center justify-between flex-wrap gap-2 border-b border-cyan-500/20 pb-2">
+                        <h2 class="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                            <span>2.</span> Ordenamiento y Búsqueda Binaria
+                        </h2>
+                        <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-300 text-xs font-mono font-bold border border-cyan-500/30">
+                            Ponderación: 20% (Orden: 12% | Búsqueda: 8%)
+                        </span>
+                    </div>
+
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Dado el siguiente arreglo $V$ de 8 identificadores de operaciones desordenadas en la cola de procesamiento:
+                    </p>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full max-w-md mx-auto text-center font-mono text-xs border border-cyan-500/30 rounded-lg overflow-hidden">
+                            <tr class="bg-cyan-950/60 text-cyan-300 font-bold border-b border-cyan-500/20">
+                                <td class="p-2">Índice</td>
+                                <td class="p-2">[0]</td>
+                                <td class="p-2">[1]</td>
+                                <td class="p-2">[2]</td>
+                                <td class="p-2">[3]</td>
+                                <td class="p-2">[4]</td>
+                                <td class="p-2">[5]</td>
+                                <td class="p-2">[6]</td>
+                                <td class="p-2">[7]</td>
+                            </tr>
+                            <tr class="bg-slate-900 text-white font-bold text-sm">
+                                <td class="p-2 bg-slate-950/80 text-slate-400">Valor</td>
+                                <td class="p-2">58</td>
+                                <td class="p-2">24</td>
+                                <td class="p-2">91</td>
+                                <td class="p-2">33</td>
+                                <td class="p-2">76</td>
+                                <td class="p-2">15</td>
+                                <td class="p-2">62</td>
+                                <td class="p-2">47</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="space-y-3 text-sm text-slate-200">
+                        <ol class="list-decimal pl-5 space-y-2">
+                            <li>
+                                <strong>a. Ordenamiento Quicksort:</strong> Ordene los elementos ascendentemente aplicando el método <strong>Quicksort</strong> utilizando como <strong>pivote el primer elemento</strong> del sub-vector en cada llamada. Muestre paso a paso las particiones, desplazamientos de índices y el estado del vector en cada nivel recursivo hasta su ordenamiento final.
+                            </li>
+                            <li>
+                                <strong>b. Búsqueda Binaria:</strong> Sobre el arreglo resultante completamente ordenado:
+                                <ul class="list-disc pl-5 mt-1 text-xs sm:text-sm text-slate-300 space-y-1">
+                                    <li>Realice la traza de búsqueda de la clave <strong>62</strong> (Caso con Éxito).</li>
+                                    <li>Realice la traza de búsqueda de la clave <strong>30</strong> (Caso con Fracaso).</li>
+                                </ul>
+                                Exija y complete una tabla con columnas: <code>Paso</code>, <code>izq</code>, <code>der</code>, <code>medio</code>, <code>V[medio]</code> y <code>Acción / Comparación</code>.
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- EJERCICIO 3 -->
+                <section class="space-y-4">
+                    <div class="flex items-center justify-between flex-wrap gap-2 border-b border-cyan-500/20 pb-2">
+                        <h2 class="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                            <span>3.</span> Notaciones y Expresiones Aritméticas
+                        </h2>
+                        <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-300 text-xs font-mono font-bold border border-cyan-500/30">
+                            Ponderación: 15%
+                        </span>
+                    </div>
+
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Dada la siguiente fórmula matemática en notación infija tradicional utilizada en el cálculo del factor de dispersión de comisiones:
+                    </p>
+
+                    <div class="bg-slate-950 p-4 rounded-xl border border-white/10 text-center font-mono text-cyan-300 text-lg">
+                        ((m + n) * p^2) / (r - s * 4)
+                    </div>
+
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        <strong>Consigna:</strong> Convierta la expresión a <strong>Notación Prefija (Polaca Directa)</strong>, detallando el procedimiento analítico paso a paso conforme a las reglas de precedencia de operadores y uso de paréntesis.
+                    </p>
+
+                    <div class="bg-cyan-950/20 border border-cyan-500/20 p-3 rounded-xl text-xs font-mono text-slate-300">
+                        <span class="text-cyan-400 font-bold">Verificación Canónica:</span>
+                        <code class="ml-2 text-white bg-slate-900 px-2 py-0.5 rounded">/ * + m n ^ p 2 - r * s 4</code>
+                    </div>
+                </section>
+
+                <!-- EJERCICIO 4 -->
+                <section class="space-y-4">
+                    <div class="flex items-center justify-between flex-wrap gap-2 border-b border-cyan-500/20 pb-2">
+                        <h2 class="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                            <span>4.</span> Análisis Recursivo Incógnito (Función Misterio)
+                        </h2>
+                        <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-300 text-xs font-mono font-bold border border-cyan-500/30">
+                            Ponderación: 5% (a: 2.5% | b: 2.5%)
+                        </span>
+                    </div>
+
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Analice con rigurosidad el siguiente algoritmo recursivo implementado en C++:
+                    </p>
+
+                    <div class="bg-[#1e1e1e] p-4 rounded-xl border border-white/10 overflow-x-auto font-mono text-xs text-[#d4d4d4]">
+                        <pre>int misterio1(const int arr[], int n, int k) {
+    if (n == 0) {
+        return 0; // ¿Qué representa esta condición?
+    }
+    int acumulador = misterio1(arr, n - 1, k);
+    if (arr[n - 1] % 2 != 0 && arr[n - 1] > k) {
+        return 1 + acumulador;
+    } else {
+        return acumulador;
+    }
+}</pre>
+                    </div>
+
+                    <div class="space-y-2 text-sm text-slate-200">
+                        <ol class="list-decimal pl-5 space-y-1.5">
+                            <li><strong>a.</strong> Indique claramente cuál es el <strong>caso base</strong> y cuál el <strong>caso recursivo</strong>. Explique en sus propias palabras qué calcula o qué propiedad determina la función sobre el vector recibido.</li>
+                            <li><strong>b.</strong> Realice la traza de llamadas recursivas completa (diagramando el árbol de llamadas, valores pasados como parámetros y retornos parciales) para el arreglo de prueba:
+                                <div class="mt-2 font-mono text-xs text-cyan-300 bg-slate-950 p-2 rounded inline-block">
+                                    V = [7, 12, 15, 4, 21], con n = 5 y k = 9
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- EJERCICIO 5 -->
+                <section class="space-y-4">
+                    <div class="flex items-center justify-between flex-wrap gap-2 border-b border-cyan-500/20 pb-2">
+                        <h2 class="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                            <span>5.</span> Problema Integrador en C++ con TDAs Dinámicos
+                        </h2>
+                        <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 text-xs font-mono font-bold border border-emerald-500/40">
+                            Ponderación: 45%
+                        </span>
+                    </div>
+
+                    <div class="bg-black/30 p-5 rounded-2xl border border-white/5 space-y-4 text-sm leading-relaxed text-slate-200">
+                        <p>
+                            Desarrolle un programa completo y modular en <strong>C++ estándar</strong> que resuelva la codificación y empaquetamiento de cadenas para transmisiones financieras seguras, implementando Tipos de Datos Abstractos dinámicos basados en nodos y punteros.
+                        </p>
+
+                        <div class="space-y-2">
+                            <h3 class="font-bold text-white text-base">Reglas de Negocio y Criterios del Problema:</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-slate-300 text-xs sm:text-sm">
+                                <li><strong>1. Validación de Entrada:</strong> La palabra ingresada por el usuario debe tener una longitud comprendida estrictamente entre <strong>5 y 25 caracteres</strong>, contener exclusivamente letras alfabéticas sin espacios, números ni caracteres especiales.</li>
+                                <li><strong>2. Partición en Estructuras Dinámicas:</strong>
+                                    <ul class="list-circle pl-5 mt-1 space-y-1">
+                                        <li>Las <strong>VOCALES</strong> se insertan en una <strong>PILA DINÁMICA</strong> (LIFO).</li>
+                                        <li>Las <strong>CONSONANTES</strong> se insertan en una <strong>COLA DINÁMICA</strong> (FIFO).</li>
+                                    </ul>
+                                </li>
+                                <li><strong>3. Algoritmo de Codificación y Alternancia:</strong> La palabra codificada se construye alternando las letras de ambas estructuras tomadas por mitades, <strong>iniciando por la PILA</strong>:
+                                    <ol class="list-decimal pl-5 mt-1 space-y-1 text-cyan-300 font-mono text-xs">
+                                        <li>1ª Mitad de la Pila (desapilando <code>(N_pila / 2) + (N_pila % 2)</code> elementos).</li>
+                                        <li>1ª Mitad de la Cola (desencolando <code>(N_cola / 2) + (N_cola % 2)</code> elementos).</li>
+                                        <li>2ª Mitad restante de la Pila (hasta vaciarla).</li>
+                                        <li>2ª Mitad restante de la Cola (hasta vaciarla).</li>
+                                    </ol>
+                                </li>
+                                <li><strong>4. Vaciado Total:</strong> Ambas estructuras deben quedar rigurosamente vacías al finalizar el proceso de codificación.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Ejemplo Resuelto en Consignas con ASCII -->
+                        <div class="border-t border-white/10 pt-4 space-y-3">
+                            <h4 class="font-bold text-cyan-300 text-sm">Ejemplo de Ejecución Demostrado:</h4>
+                            <p class="text-xs text-slate-300">Palabra ingresada: <code class="text-white font-mono bg-white/10 px-1.5 py-0.5 rounded">criptografia</code> (longitud: 12 letras)</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                                <div class="bg-[#18181b] p-3 rounded-xl border border-cyan-500/20">
+                                    <div class="text-cyan-400 font-semibold mb-1">PILA (Vocales: 5 letras)</div>
+                                    <pre class="text-slate-300">tope -> [ a ]
+        [ i ]
+        [ a ]
+        [ o ]
+fondo-> [ i ]</pre>
+                                </div>
+
+                                <div class="bg-[#18181b] p-3 rounded-xl border border-cyan-500/20">
+                                    <div class="text-cyan-400 font-semibold mb-1">COLA (Consonantes: 7 letras)</div>
+                                    <pre class="text-slate-300">frente -> [ c , r , p , t , g , r , f ] <- fin</pre>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-cyan-950/40 border border-cyan-500/30 rounded-xl text-xs font-mono text-slate-200">
+                                <div class="text-cyan-300 font-bold mb-1">Secuencia de Extracción de Mitades:</div>
+                                <div>1) 3 letras desapiladas de Pila: <span class="text-cyan-300 font-bold">'a', 'i', 'a'</span></div>
+                                <div>2) 4 letras desencoladas de Cola: <span class="text-cyan-300 font-bold">'c', 'r', 'p', 't'</span></div>
+                                <div>3) 2 letras restantes de Pila: <span class="text-cyan-300 font-bold">'o', 'i'</span></div>
+                                <div>4) 3 letras restantes de Cola: <span class="text-cyan-300 font-bold">'g', 'r', 'f'</span></div>
+                                <div class="mt-2 text-sm text-white font-bold">&rarr; Palabra Codificada: <span class="text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded">aiacrptoigrf</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Menú Modular Requerido -->
+                        <div class="border-t border-white/10 pt-4 space-y-2">
+                            <h4 class="font-bold text-white text-sm">Opciones Obligatorias del Menú:</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+                                <div class="p-2 bg-slate-950/70 rounded border border-white/5">1. Ingreso y validación de palabra</div>
+                                <div class="p-2 bg-slate-950/70 rounded border border-white/5">2. Cargar en Pila y Cola dinámicas</div>
+                                <div class="p-2 bg-slate-950/70 rounded border border-white/5">3. Mostrar estructuras dinámicas</div>
+                                <div class="p-2 bg-slate-950/70 rounded border border-white/5">4. Codificar palabra y vaciar TDAs</div>
+                                <div class="p-2 bg-slate-950/70 rounded border border-white/5 sm:col-span-2">0. Salir del programa</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- TAB 2: SIMULADOR EN VIVO (JS) -->
+            <div id="tab-simulador" class="tab-content p-6 sm:p-8 space-y-8 no-print">
+                <div class="border-b border-cyan-500/20 pb-4">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <span>🧪</span> Laboratorio Interactivo de Simulación
+                    </h2>
+                    <p class="text-sm text-slate-400 mt-1">
+                        Pruebe la lógica del examen en tiempo real directamente en su navegador para validar algoritmos y casos de prueba.
+                    </p>
+                </div>
+
+                <!-- Simulador Ejercicio 5: Partición y Codificación de Palabra -->
+                <div class="bg-black/40 border border-cyan-500/30 rounded-2xl p-6 space-y-6">
+                    <div class="flex items-center justify-between flex-wrap gap-2">
+                        <h3 class="text-lg font-bold text-cyan-300 flex items-center gap-2">
+                            <span>🔤</span> Simulador de TDAs (Ejercicio 5): Pila + Cola
+                        </h3>
+                        <span class="text-xs font-mono text-slate-400">Vocales en Pila (LIFO) • Consonantes en Cola (FIFO)</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider font-mono">
+                            Ingrese una palabra para codificar (5 a 25 letras):
+                        </label>
+                        <div class="flex gap-3 flex-wrap sm:flex-nowrap">
+                            <input type="text" id="sim-input-palabra" value="criptografia" placeholder="Ej: criptografia" maxlength="25" class="w-full bg-slate-950 border border-cyan-500/40 rounded-xl px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-cyan-400">
+                            <button onclick="ejecutarSimuladorTDA()" class="px-6 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition whitespace-nowrap shadow-lg shadow-cyan-600/30">
+                                Simular Proceso
+                            </button>
+                        </div>
+                        <div id="sim-msg-error" class="text-xs text-rose-400 font-mono hidden"></div>
+                    </div>
+
+                    <!-- Representación Visual de las Estructuras -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/10">
+                        <!-- Pila Visual -->
+                        <div class="bg-slate-950/80 rounded-2xl p-4 border border-cyan-500/20">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="font-bold text-cyan-300 font-mono text-xs">PILA (Vocales LIFO)</span>
+                                <span id="sim-count-pila" class="text-[10px] font-mono text-slate-400">0 elementos</span>
+                            </div>
+                            <div id="sim-visual-pila" class="min-h-[140px] flex flex-col-reverse justify-start items-center gap-1.5 p-3 bg-[#111] rounded-xl border border-white/5 overflow-y-auto max-h-[220px]">
+                                <span class="text-xs text-slate-600 italic">Pila vacía</span>
+                            </div>
+                        </div>
+
+                        <!-- Cola Visual -->
+                        <div class="bg-slate-950/80 rounded-2xl p-4 border border-cyan-500/20">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="font-bold text-cyan-300 font-mono text-xs">COLA (Consonantes FIFO)</span>
+                                <span id="sim-count-cola" class="text-[10px] font-mono text-slate-400">0 elementos</span>
+                            </div>
+                            <div id="sim-visual-cola" class="min-h-[140px] flex flex-wrap items-center content-start gap-1.5 p-3 bg-[#111] rounded-xl border border-white/5 overflow-y-auto max-h-[220px]">
+                                <span class="text-xs text-slate-600 italic">Cola vacía</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resultado de la Codificación -->
+                    <div id="sim-resultado-box" class="hidden p-4 rounded-xl bg-gradient-to-r from-cyan-950/40 to-slate-950 border border-cyan-500/40 space-y-2">
+                        <div class="text-xs font-mono text-cyan-300 font-semibold uppercase tracking-wider">Resultado del Algoritmo de Alternancia:</div>
+                        <div class="flex items-center gap-4 flex-wrap">
+                            <div class="text-xl sm:text-2xl font-mono font-extrabold text-white" id="sim-resultado-palabra"></div>
+                            <div class="text-xs font-mono text-slate-400" id="sim-resultado-detalle"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulador Ejercicio 4: Traza de Función Misterio -->
+                <div class="bg-black/40 border border-cyan-500/30 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-lg font-bold text-cyan-300 flex items-center gap-2">
+                        <span>🔄</span> Verificador de Función Misterio (Ejercicio 4)
+                    </h3>
+                    <p class="text-xs text-slate-300">
+                        Comprueba el cálculo recursivo de números impares mayores a K para cualquier arreglo.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[10px] font-mono text-slate-400 mb-1">Vector de Enteros (separados por coma):</label>
+                            <input type="text" id="sim-rec-vector" value="7, 12, 15, 4, 21" class="w-full bg-slate-950 border border-white/10 rounded-lg px-3 py-2 text-white font-mono text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-slate-400 mb-1">Umbral K:</label>
+                            <input type="number" id="sim-rec-k" value="9" class="w-full bg-slate-950 border border-white/10 rounded-lg px-3 py-2 text-white font-mono text-xs">
+                        </div>
+                    </div>
+                    <button onclick="ejecutarSimuladorRecursion()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold transition">
+                        Calcular Traza Recursiva
+                    </button>
+                    <div id="sim-rec-salida" class="p-3 bg-[#111] rounded-lg border border-white/5 font-mono text-xs text-slate-300 whitespace-pre-wrap hidden"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: RÚBRICA Y CALCULADORA DOCENTE -->
+            <div id="tab-calculadora" class="tab-content p-6 sm:p-8 space-y-8 no-print">
+                <div class="border-b border-cyan-500/20 pb-4 flex justify-between items-center flex-wrap gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                            <span>📊</span> Rúbrica y Calculadora Dinámica de Puntaje
+                        </h2>
+                        <p class="text-sm text-slate-400 mt-1">
+                            Ajuste los puntajes parciales obtenidos para calcular automáticamente la calificación final unificada.
+                        </p>
+                    </div>
+                    <!-- Medidor de Calificación -->
+                    <div class="bg-slate-950 border border-cyan-500/40 rounded-2xl p-4 text-center min-w-[160px]">
+                        <div class="text-[10px] font-mono text-slate-400 uppercase tracking-widest">Nota Total</div>
+                        <div class="text-3xl font-extrabold text-cyan-400 font-mono mt-0.5" id="calc-total-puntos">100 / 100</div>
+                        <div class="mt-1 text-xs font-bold" id="calc-estado-aprobacion">Promocionado</div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Item 1 -->
+                    <div class="p-4 bg-slate-950/60 rounded-xl border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="font-bold text-white text-sm">1. Memoria y Structs Anidados (Máx: 15%)</div>
+                            <div class="text-xs text-slate-400">Cálculo de variable simple (7.5%) y arreglo de 40 elementos (7.5%).</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <input type="range" min="0" max="15" step="0.5" value="15" oninput="actualizarCalculadora()" id="calc-ej1" class="accent-cyan-500 w-32 cursor-pointer">
+                            <span class="font-mono text-cyan-300 text-sm font-bold w-12 text-right" id="val-ej1">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="p-4 bg-slate-950/60 rounded-xl border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="font-bold text-white text-sm">2. Quicksort y Búsqueda Binaria (Máx: 20%)</div>
+                            <div class="text-xs text-slate-400">Pasadas Quicksort (12%) y búsqueda binaria éxito/fracaso (8%).</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <input type="range" min="0" max="20" step="0.5" value="20" oninput="actualizarCalculadora()" id="calc-ej2" class="accent-cyan-500 w-32 cursor-pointer">
+                            <span class="font-mono text-cyan-300 text-sm font-bold w-12 text-right" id="val-ej2">20%</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="p-4 bg-slate-950/60 rounded-xl border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="font-bold text-white text-sm">3. Notaciones: Infija a Prefija (Máx: 15%)</div>
+                            <div class="text-xs text-slate-400">Precedencia de operadores, resolución analítica y resultado canónico.</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <input type="range" min="0" max="15" step="0.5" value="15" oninput="actualizarCalculadora()" id="calc-ej3" class="accent-cyan-500 w-32 cursor-pointer">
+                            <span class="font-mono text-cyan-300 text-sm font-bold w-12 text-right" id="val-ej3">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="p-4 bg-slate-950/60 rounded-xl border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="font-bold text-white text-sm">4. Función Misterio Recursiva (Máx: 5%)</div>
+                            <div class="text-xs text-slate-400">Caso base y propósito (2.5%), traza completa de escritorio (2.5%).</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <input type="range" min="0" max="5" step="0.5" value="5" oninput="actualizarCalculadora()" id="calc-ej4" class="accent-cyan-500 w-32 cursor-pointer">
+                            <span class="font-mono text-cyan-300 text-sm font-bold w-12 text-right" id="val-ej4">5%</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="p-4 bg-slate-950/60 rounded-xl border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="font-bold text-white text-sm">5. Problema Integrador en C++ con TDAs (Máx: 45%)</div>
+                            <div class="text-xs text-slate-400">Control (5%), Carga TDAs (10%), Codificación (10%), Mostrar (5%), Menú (5%), Modificación TDAs (10%).</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <input type="range" min="0" max="45" step="1" value="45" oninput="actualizarCalculadora()" id="calc-ej5" class="accent-cyan-500 w-32 cursor-pointer">
+                            <span class="font-mono text-cyan-300 text-sm font-bold w-12 text-right" id="val-ej5">45%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: STARTER CODE C++ -->
+            <div id="tab-starter" class="tab-content p-6 sm:p-8 space-y-6 no-print">
+                <div class="flex items-center justify-between flex-wrap gap-4 border-b border-cyan-500/20 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <span>💻</span> Plantilla de Partida en C++ (Starter Kit)
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Estructura base con firmas de TDAs y menú modular listo para desarrollar.</p>
+                    </div>
+                    <button onclick="copiarCodigoStarter()" id="btn-copiar-codigo" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-mono font-bold text-xs transition shadow-md shadow-cyan-600/30">
+                        📋 Copiar al Portapapeles
+                    </button>
+                </div>
+
+                <div class="bg-[#1e1e1e] p-5 rounded-2xl border border-white/10 overflow-x-auto text-xs font-mono text-[#d4d4d4] leading-relaxed">
+                    <pre id="codigo-cplusplus">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;cctype&gt;
+
+using namespace std;
+
+// ==========================================
+// TDA PILA DINÁMICA (VOCALES)
+// ==========================================
+struct NodoPila {
+    char dato;
+    NodoPila* sig;
+};
+
+void Apilar(NodoPila* &amp;tope, char valor) {
+    NodoPila* nuevo = new NodoPila();
+    nuevo-&gt;dato = valor;
+    nuevo-&gt;sig = tope;
+    tope = nuevo;
+}
+
+char Desapilar(NodoPila* &amp;tope) {
+    if (tope == NULL) return '\0';
+    NodoPila* aux = tope;
+    char valor = aux-&gt;dato;
+    tope = tope-&gt;sig;
+    delete aux;
+    return valor;
+}
+
+bool PilaVacia(NodoPila* tope) {
+    return (tope == NULL);
+}
+
+// ==========================================
+// TDA COLA DINÁMICA (CONSONANTES)
+// ==========================================
+struct NodoCola {
+    char dato;
+    NodoCola* sig;
+};
+
+struct Cola {
+    NodoCola* frente;
+    NodoCola* fin;
+};
+
+void InicializarCola(Cola &amp;c) {
+    c.frente = NULL;
+    c.fin = NULL;
+}
+
+void Encolar(Cola &amp;c, char valor) {
+    NodoCola* nuevo = new NodoCola();
+    nuevo-&gt;dato = valor;
+    nuevo-&gt;sig = NULL;
+    if (c.frente == NULL) {
+        c.frente = nuevo;
+    } else {
+        c.fin-&gt;sig = nuevo;
+    }
+    c.fin = nuevo;
+}
+
+char Desencolar(Cola &amp;c) {
+    if (c.frente == NULL) return '\0';
+    NodoCola* aux = c.frente;
+    char valor = aux-&gt;dato;
+    c.frente = c.frente-&gt;sig;
+    if (c.frente == NULL) c.fin = NULL;
+    delete aux;
+    return valor;
+}
+
+bool ColaVacia(Cola c) {
+    return (c.frente == NULL);
+}
+
+// ==========================================
+// PROTOTIPOS MODULARES
+// ==========================================
+bool EsVocal(char c);
+bool ValidarPalabra(const char palabra[]);
+void MostrarMenu(int &amp;opc);
+void CargarEstructuras(const char palabra[], NodoPila* &amp;pila, Cola &amp;cola, int &amp;cantVocales, int &amp;cantConsonantes);
+void MostrarEstructuras(NodoPila* pila, Cola cola);
+void CodificarPalabra(NodoPila* &amp;pila, Cola &amp;cola, int cantVocales, int cantConsonantes, char palabraCodificada[]);
+
+int main() {
+    int opcion = -1;
+    char palabra[50] = "";
+    char palabraCodificada[50] = "";
+    NodoPila* pilaVocales = NULL;
+    Cola colaConsonantes;
+    InicializarCola(colaConsonantes);
+    int cantVocales = 0, cantConsonantes = 0;
+
+    do {
+        MostrarMenu(opcion);
+        switch (opcion) {
+            case 1:
+                cout &lt;&lt; "Ingrese palabra (5 a 25 caracteres): ";
+                cin &gt;&gt; palabra;
+                if (!ValidarPalabra(palabra)) {
+                    cout &lt;&lt; "[Error] Palabra no valida." &lt;&lt; endl;
+                    palabra[0] = '\0';
+                } else {
+                    cout &lt;&lt; "[OK] Palabra aceptada." &lt;&lt; endl;
+                }
+                break;
+            case 2:
+                if (strlen(palabra) == 0) {
+                    cout &lt;&lt; "[Aviso] Primero ingrese una palabra valida." &lt;&lt; endl;
+                } else {
+                    CargarEstructuras(palabra, pilaVocales, colaConsonantes, cantVocales, cantConsonantes);
+                    cout &lt;&lt; "[OK] Letras cargadas en Pila y Cola." &lt;&lt; endl;
+                }
+                break;
+            case 3:
+                MostrarEstructuras(pilaVocales, colaConsonantes);
+                break;
+            case 4:
+                CodificarPalabra(pilaVocales, colaConsonantes, cantVocales, cantConsonantes, palabraCodificada);
+                cout &lt;&lt; "Palabra Codificada: " &lt;&lt; palabraCodificada &lt;&lt; endl;
+                break;
+            case 0:
+                cout &lt;&lt; "Fin del programa." &lt;&lt; endl;
+                break;
+            default:
+                cout &lt;&lt; "Opcion invalida." &lt;&lt; endl;
+        }
+    } while (opcion != 0);
+
+    return 0;
+}</pre>
+                </div>
+            </div>
+
+            <!-- Footer con Leyenda Académica -->
+            <footer class="p-6 border-t border-white/10 text-center text-xs text-slate-500 font-mono">
+                Examen Parcial de Algoritmos y Estructuras de Datos • Ciclo Lectivo 2026 • Universidad Nacional de Jujuy
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Scripts de Interactividad (Pestañas, Simuladores, Calculadora) -->
+    <script>
+        // Controlador de Pestañas
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-cyan-500', 'text-slate-950', 'font-bold');
+                btn.classList.add('text-slate-400');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            const activeTab = document.getElementById('tab-' + tabId);
+            if (activeBtn && activeTab) {
+                activeBtn.classList.add('active', 'bg-cyan-500', 'text-slate-950', 'font-bold');
+                activeBtn.classList.remove('text-slate-400');
+                activeTab.classList.add('active');
+            }
+        }
+
+        // ==========================================
+        // SIMULADOR INTERACTIVO DE TDAS (EJERCICIO 5)
+        // ==========================================
+        function esVocal(c) {
+            return ['a','e','i','o','u','A','E','I','O','U'].includes(c);
+        }
+
+        function ejecutarSimuladorTDA() {
+            const input = document.getElementById('sim-input-palabra').value.trim();
+            const errDiv = document.getElementById('sim-msg-error');
+            const resBox = document.getElementById('sim-resultado-box');
+            
+            // Validación
+            if (input.length < 5 || input.length > 25) {
+                errDiv.textContent = "Error: La longitud debe ser estrictamente entre 5 y 25 caracteres.";
+                errDiv.classList.remove('hidden');
+                resBox.classList.add('hidden');
+                return;
+            }
+            if (!/^[a-zA-Z]+$/.test(input)) {
+                errDiv.textContent = "Error: Solo se permiten letras sin espacios ni números.";
+                errDiv.classList.remove('hidden');
+                resBox.classList.add('hidden');
+                return;
+            }
+            errDiv.classList.add('hidden');
+
+            const palabra = input.toLowerCase();
+            const pila = []; // Vocales
+            const cola = []; // Consonantes
+
+            for (let i = 0; i < palabra.length; i++) {
+                const c = palabra[i];
+                if (esVocal(c)) {
+                    pila.push(c); // Tope al final
+                } else {
+                    cola.push(c); // Encolar al final
+                }
+            }
+
+            // Render Pila
+            const containerPila = document.getElementById('sim-visual-pila');
+            containerPila.innerHTML = '';
+            if (pila.length === 0) {
+                containerPila.innerHTML = '<span class="text-xs text-slate-600 italic">Pila sin vocales</span>';
+            } else {
+                pila.forEach((letra, idx) => {
+                    const el = document.createElement('div');
+                    el.className = "w-full max-w-[120px] py-1 text-center bg-cyan-950 border border-cyan-500/40 rounded text-cyan-300 font-mono text-xs font-bold shadow";
+                    el.textContent = `${letra} ${idx === pila.length - 1 ? '← Tope' : ''}`;
+                    containerPila.appendChild(el);
+                });
+            }
+            document.getElementById('sim-count-pila').textContent = `${pila.length} vocales`;
+
+            // Render Cola
+            const containerCola = document.getElementById('sim-visual-cola');
+            containerCola.innerHTML = '';
+            if (cola.length === 0) {
+                containerCola.innerHTML = '<span class="text-xs text-slate-600 italic">Cola sin consonantes</span>';
+            } else {
+                cola.forEach((letra, idx) => {
+                    const el = document.createElement('div');
+                    el.className = "px-3 py-1 bg-slate-900 border border-emerald-500/40 rounded text-emerald-300 font-mono text-xs font-bold shadow";
+                    el.textContent = `${letra} ${idx === 0 ? '(Frente)' : ''}`;
+                    containerCola.appendChild(el);
+                });
+            }
+            document.getElementById('sim-count-cola').textContent = `${cola.length} consonantes`;
+
+            // Algoritmo de Alternancia
+            const N_pila = pila.length;
+            const N_cola = cola.length;
+
+            const m_p1 = Math.floor(N_pila / 2) + (N_pila % 2);
+            const m_p2 = N_pila - m_p1;
+
+            const m_c1 = Math.floor(N_cola / 2) + (N_cola % 2);
+            const m_c2 = N_cola - m_c1;
+
+            // Clon de trabajo
+            const pilaWork = [...pila];
+            const colaWork = [...cola];
+            let resultado = "";
+
+            // 1. Extraer m_p1 de Pila
+            for (let i = 0; i < m_p1; i++) {
+                resultado += pilaWork.pop();
+            }
+            // 2. Extraer m_c1 de Cola
+            for (let i = 0; i < m_c1; i++) {
+                resultado += colaWork.shift();
+            }
+            // 3. Extraer m_p2 de Pila
+            for (let i = 0; i < m_p2; i++) {
+                resultado += pilaWork.pop();
+            }
+            // 4. Extraer m_c2 de Cola
+            for (let i = 0; i < m_c2; i++) {
+                resultado += colaWork.shift();
+            }
+
+            document.getElementById('sim-resultado-palabra').textContent = resultado;
+            document.getElementById('sim-resultado-detalle').textContent = 
+                `Mitades Pila: ${m_p1} y ${m_p2} | Mitades Cola: ${m_c1} y ${m_c2} | Total: ${resultado.length} letras`;
+            resBox.classList.remove('hidden');
+        }
+
+        // ==========================================
+        // SIMULADOR RECURSIVO (EJERCICIO 4)
+        // ==========================================
+        function ejecutarSimuladorRecursion() {
+            const rawVec = document.getElementById('sim-rec-vector').value;
+            const k = parseInt(document.getElementById('sim-rec-k').value, 10);
+            const salida = document.getElementById('sim-rec-salida');
+
+            const arr = rawVec.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+            if (arr.length === 0) {
+                salida.textContent = "Error en el vector.";
+                salida.classList.remove('hidden');
+                return;
+            }
+
+            let log = `--- TRAZA DE EJECUCIÓN RECURSIVA (misterio1) ---\n`;
+            log += `Vector: [${arr.join(', ')}], n = ${arr.length}, k = ${k}\n\n`;
+
+            function misterioSim(subarr, n, nivel) {
+                const indent = "  ".repeat(nivel);
+                log += `${indent}Llamada nivel ${nivel}: misterio(n=${n})\n`;
+                if (n === 0) {
+                    log += `${indent}  -> Caso base (n=0): retorna 0\n`;
+                    return 0;
+                }
+                const elem = subarr[n - 1];
+                const acum = misterioSim(subarr, n - 1, nivel + 1);
+                const cumple = (elem % 2 !== 0 && elem > k);
+                const ret = cumple ? (1 + acum) : acum;
+                log += `${indent}  <- Retorno misterio(n=${n}): elem=${elem} ${cumple ? `(IMPAR y >${k} -> +1)` : `(NO cumple)`} -> retorna ${ret}\n`;
+                return ret;
+            }
+
+            const total = misterioSim(arr, arr.length, 0);
+            log += `\nResultado Final Retornado: ${total}`;
+            salida.textContent = log;
+            salida.classList.remove('hidden');
+        }
+
+        // ==========================================
+        // CALCULADORA DE RÚBRICA
+        // ==========================================
+        function actualizarCalculadora() {
+            const e1 = parseFloat(document.getElementById('calc-ej1').value);
+            const e2 = parseFloat(document.getElementById('calc-ej2').value);
+            const e3 = parseFloat(document.getElementById('calc-ej3').value);
+            const e4 = parseFloat(document.getElementById('calc-ej4').value);
+            const e5 = parseFloat(document.getElementById('calc-ej5').value);
+
+            document.getElementById('val-ej1').textContent = e1 + '%';
+            document.getElementById('val-ej2').textContent = e2 + '%';
+            document.getElementById('val-ej3').textContent = e3 + '%';
+            document.getElementById('val-ej4').textContent = e4 + '%';
+            document.getElementById('val-ej5').textContent = e5 + '%';
+
+            const total = e1 + e2 + e3 + e4 + e5;
+            document.getElementById('calc-total-puntos').textContent = total + ' / 100';
+
+            const estado = document.getElementById('calc-estado-aprobacion');
+            if (total >= 70) {
+                estado.textContent = "Promocionado";
+                estado.className = "mt-1 text-xs font-bold text-emerald-400";
+            } else if (total >= 50) {
+                estado.textContent = "Aprobado (Regular)";
+                estado.className = "mt-1 text-xs font-bold text-amber-400";
+            } else {
+                estado.textContent = "Insuficiente / Desaprobado";
+                estado.className = "mt-1 text-xs font-bold text-rose-400";
+            }
+        }
+
+        // ==========================================
+        // COPIAR CÓDIGO
+        // ==========================================
+        function copiarCodigoStarter() {
+            const codigo = document.getElementById('codigo-cplusplus').innerText;
+            navigator.clipboard.writeText(codigo).then(() => {
+                const btn = document.getElementById('btn-copiar-codigo');
+                btn.textContent = "✅ ¡Copiado!";
+                setTimeout(() => {
+                    btn.textContent = "📋 Copiar al Portapapeles";
+                }, 2000);
+            });
+        }
+
+        // Ejecutar simulación inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            ejecutarSimuladorTDA();
+        });
+    </script>
+</body>
+</html>

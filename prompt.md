@@ -1,0 +1,1 @@
+usa [SKILL.md] y genera en [iteracion5] un archivo SDD.md para generar 4 examenes nuevos en version html+tailwind+js
